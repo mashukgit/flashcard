@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/main}" lang="en">
+<body>
+	<div layout:fragment="content">
+	<div class="card">
+	<div class="card-body">
+	<nav>
+		<div class="btn-group btn-group-lg" role="group">
+			<a th:class="${filter == 0 ? 'btn btn-success':'btn btn-default'}" role="button" th:href="@{|/memorize/${tagId}/unknown|}" style="border-radius: var(--bs-border-radius) !important;">Unknown</a>
+			<a th:class="${filter == 1 ? 'btn btn-success':'btn btn-default'}" role="button" th:href="@{|/memorize/${tagId}/known|}" style="border-radius: var(--bs-border-radius) !important;">known</a>
+		</div>
+		<div>
+			<div th:if="${empty == true}" style="display: flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 0px;color:rgb(126, 128, 127)">
+				<h1><em class="bi bi-sim-slash"></em></h1>
+				No card found.
+			</div>
+			<div th:if="${empty == false}" id="fc_carousel" class="carousel slide">
+				<div class="carousel-inner">
+					<div th:each="card: ${cards}" th:class="'carousel-item' + (${cardStat.index} == 0 ? ' active':'')" style="height:calc(100vh - 216px);">
+						<div class="flip-card">
+							<div class="flip-card-inner">
+								<div th:text="${card.front}" class="flip-card-front"></div>
+								<div class="flip-card-back">
+									<div th:text="${card.back}"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="d-flex justify-content-center">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckKnown" th:checked="${card.known}" th:onchange="@{|markAsKnown(${card.id}, ${card.known})|}">
+								<label class="form-check-label" for="flexSwitchCheckKnown">Mark as known</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="fc-button-panel">
+					<button class="btn btn-outline-success" type="button" data-bs-target="#fc_carousel" data-bs-slide="prev">
+						Previous
+					</button>
+					<div>
+						<input type="checkbox" class="btn-check" autocomplete="off" id="flexSwitchCheckFlip" onchange="flipCard()">
+						<label class="btn btn-outline-success" for="flexSwitchCheckFlip" id="flexSwitchCheckFlipLabel">Flip Card</label>
+					</div>
+					<button class="btn btn-outline-success" type="button" data-bs-target="#fc_carousel" data-bs-slide="next">
+						Next
+					</button>
+				</div>
+			</div>
+		</div>
+	</nav>
+	</div>
+	</div>
+	<script type="text/javascript">
+		function flipCard() {
+			const collection = document.getElementsByClassName("carousel-item active");
+			const flipCard = collection[0].querySelector('.flip-card');
+			const flipSwitch = document.getElementById('flexSwitchCheckFlip');
+			if(flipSwitch.checked) {
+				flipCard.classList.add('flip');
+				document.getElementById('flexSwitchCheckFlipLabel').innerText = 'Show Card';
+			} else {
+				flipCard.classList.remove('flip');
+				document.getElementById('flexSwitchCheckFlipLabel').innerText = 'Flip Card';
+			}
+		}
+		function markAsKnown(cardId, known) {
+			console.log("cardId:", cardId);
+			console.log("known:", known);
+		}
+	</script>
+	</div>
+</body>
+</html>

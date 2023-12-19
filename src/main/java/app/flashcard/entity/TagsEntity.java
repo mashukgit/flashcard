@@ -1,0 +1,45 @@
+package app.flashcard.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity(name = "Tags")
+public class TagsEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
+	@Column(nullable = false)
+	private String tagName;
+
+	@Transient
+	private int cardCount;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public int getCardCount() {
+		return cardCount;
+	}
+
+	public void setCardCount(int cardCount) {
+		this.cardCount = cardCount;
+	}
+
+}

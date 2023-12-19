@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/main}" lang="en">
+<body>
+	<div layout:fragment="content">
+	<div class="card">
+	<div class="card-body">
+	<div class="list-group">
+		<a th:each="card: ${cards}" th:href="@{|/edit-card/${card.id}|}" title="Click to edit" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+			<div class="ms-2 me-auto" th:text="${card.front}"></div>
+		</a>
+	</div>
+	</div>
+	</div>
+	</div>
+</body>
+</html>

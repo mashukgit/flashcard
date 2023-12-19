@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/main}" lang="en">
+<body>
+	<div layout:fragment="content">
+		<div>
+		<div class="btn-toolbar mb-3 justify-content-end" role="toolbar" aria-label="Toolbar with button groups">
+			<a class="btn btn-outline-success me-2" role="button" href="tags">Add Tags</a>
+			<a class="btn btn-outline-success" role="button" href="add-card">Add Card</a>
+		</div>
+		<div class="list-group">
+			<div th:each="tag: ${tags}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+				<div class="ms-2 me-auto">
+				<span th:text="${tag.tagName}"></span>
+				<span class="badge bg-primary rounded-pill" th:text="${tag.cardCount}">0</span>
+				</div>
+				<div>
+				<a th:href="@{|/cards/${tag.id}|}" type="button" class="btn btn-sm btn-outline-success">
+				Cards
+				</a>
+				<a th:href="@{|/memorize/${tag.id}/unknown|}" type="button" class="btn btn-sm btn-outline-success">
+				Memorize
+				</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

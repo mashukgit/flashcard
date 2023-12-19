@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/main}" lang="en">
+<body>
+	<div layout:fragment="content">
+		<style type="text/css">
+			.add-tag-block,
+			.edit-tag-block {
+				display: flex;
+				flex-direction: row;
+				gap: 8px;
+			}
+			
+			.add-tag-block .bi,
+			.edit-tag-block .bi{
+				font-size:24px;
+				cursor: pointer;
+			}
+			.add-tag-block .bi:hover,
+			.edit-tag-block .bi:hover {
+				opacity: 0.75;
+			} 
+			.fc-icon-button {
+				border: none;
+				padding: 0 !important;
+				background: none;
+				margin: 0 !important;
+			}
+			.display-tag-block {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
+			.fc-icon-button-edit {
+				border-radius: 6px;
+				border: 1px solid #c7c8c9;
+				background: #f7f7fa;
+				color: #010101;
+				font-size: 14px;
+				display: none;
+			}
+			.fc-icon-button-edit:hover {
+				color: #383838;
+				border: 1px solid #929394;
+			}
+			.list-group-item.edit:hover .fc-icon-button-edit {
+				display: unset;
+			}
+			.tag-name {
+				line-height: 28px;
+			}
+			.hide{
+				display: none;
+			}
+			
+		</style>
+		<div class="card">
+			<div class="card-header bg-success bg-opacity-10">
+				<h5 class="card-title text-success mb-0" th:text="${formTitle}"></h5>
+			</div>
+			<div class="card-body">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<form name="addtag" action="#" th:action="@{/add-tag}" th:object="${ntag}" method="post">
+					<div class="add-tag-block">
+						<input type="text" th:field="*{tagName}" required class="form-control" placeholder="Add new tag here...">
+						<button class="fc-icon-button" type="submit">
+							<i class="bi bi-check-square text-success"></i>
+						</button>
+					</div>
+					</form>
+				</li>
+				<li class="list-group-item edit" th:each="tag: ${tags}">
+					<form th:name="'addtag'+${tag.id}" action="#" th:action="@{/add-tag}" th:object="${tag}" method="post">
+					<input type="hidden" name="id" id="tagId" th:value="*{id}">
+					<div th:id="'edit_block'+${tag.id}" class="edit-tag-block hide">
+						<input type="text" name="tagName" id="tagName" class="form-control" th:value="*{tagName}">
+						<button class="fc-icon-button" type="submit">
+							<i class="bi bi-check-square text-success"></i>
+						</button>
+						<button class="fc-icon-button" type="button" th:onclick="'onCancelEdit('+${tag.id}+')'">
+						<i class="bi bi-x-square text-danger"></i>
+						</button>
+					</div>
+					<div th:id="'display_block'+${tag.id}" class="display-tag-block">
+						<div class="tag-name" th:text="${tag.tagName}"></div>
+						<button type="button" class="fc-icon-button-edit" th:onclick="'onClickEdit('+${tag.id}+')'">
+							<i class="bi bi-pencil"></i>
+						</button>
+					</div>
+					</form>
+				</li>
+			</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+		function onClickEdit(id){
+			document.getElementById('display_block'+id).classList.add('hide');
+			document.getElementById('edit_block'+id).classList.remove('hide');
+		}
+		function onCancelEdit(id){
+			document.getElementById('display_block'+id).classList.remove('hide');
+			document.getElementById('edit_block'+id).classList.add('hide');
+		}
+	</script>
+	</div>
+	
+</body>
+</html>
