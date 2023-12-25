@@ -60,8 +60,6 @@ public class CardsService {
 			cards = new ArrayList<>();
 		}
 
-		System.out.println(cards.size());
-
 		return cards;
 	}
 	public CardsEntity getCard(Integer id) {
@@ -71,8 +69,14 @@ public class CardsService {
 	@Transactional
 	public void addCard(CardsEntity card) {
 		if (card == null) {
-			System.out.println("Card is null");
 			return;
+		}
+		this.cardsRepository.saveAndFlush(card);
+	}
+	
+	public CardsEntity checkExists(CardsEntity card) {
+		if (card == null) {
+			return card;
 		}
 		Integer id = card.getId();
 		if (id == null)
@@ -83,12 +87,11 @@ public class CardsService {
 		else {
 			exCard.setBack(card.getBack());
 			exCard.setFront(card.getFront());
-			exCard.setId(card.getId());
-			exCard.setKnown(card.isKnown());
 			exCard.setType(card.getType());
 			exCard.setTagId(card.getTagId());
 		}
-		this.cardsRepository.saveAndFlush(exCard);
+		
+		return exCard;
 	}
 
 	public List<TypeEntity> getTypes() {

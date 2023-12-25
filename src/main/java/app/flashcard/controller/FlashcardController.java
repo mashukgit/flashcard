@@ -73,8 +73,7 @@ public class FlashcardController {
 
 	@PostMapping("/add-card")
 	public String addCard(@ModelAttribute CardsEntity card, Model model) {
-		this.cardsService.addCard(card);
-		this.initModel(model);
+		cardsService.addCard(cardsService.checkExists(card));
 		return "redirect:/";
 
 	}
